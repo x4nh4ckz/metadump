@@ -25,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/fullmoonboi/metadump/issues"
   },
-  "homepage": "https://github.com/fullmoonboi/metadump#readme"
+  "homepage": "https://github.com/fullmoonboi/metadump#readme",
+  "dependencies": {
+    "api": "^4.2.0",
+    "sequelize": "^6.15.0",
+    "socket.io": "^4.4.1",
+    "web3": "^1.7.0"
+  }
 }
