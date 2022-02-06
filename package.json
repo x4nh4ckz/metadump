@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A tool to dump ERC-721/ERC-1155 aka NFTs from wallet addresses.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,9 +28,13 @@
   },
   "homepage": "https://github.com/fullmoonboi/metadump#readme",
   "dependencies": {
+    "@audius/fetch-nft": "^0.1.6",
+    "@solana/spl-token": "^0.1.8",
+    "@solana/web3.js": "^1.33.0",
     "api": "^4.2.0",
     "sequelize": "^6.15.0",
     "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "web3": "^1.7.0"
   }
 }
