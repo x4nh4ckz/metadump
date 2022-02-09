@@ -16,17 +16,19 @@ export const generateWalletOpts = (walletType, wallet) => {
   export const parseCollectibles = (walletType, nfts) => {
     switch(walletType) {
       case 'eth':
-        return parseCollecitons(nfts.ethCollectibles);
+        return parseCollecitons(nfts);
       case 'sol':
-        return parseCollecitons(nfts.solCollectibles);
+        return parseCollecitons(nfts);
       default:
         return null;
     }
   }
   
-  export const parseCollecitons = (obj) => {
+  const parseCollecitons = (obj) => {
+    console.log(obj);
     let collections = [];
     for (const [_, value] of Object.entries(obj)) {
+      console.log(value);
       for (const collection of value) {
         collections.push({
           name: collection.name,

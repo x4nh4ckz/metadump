@@ -1,12 +1,13 @@
-// 3rd party lib integration
-import { FetchNFTClient } from '@audius/fetch-nft';
-const fetchClient = new FetchNFTClient();
+import { OpenSeaClient } from './fetcher/eth/index.js';
+// Database integration
+// import { Sequelize } from 'sequelize';
+// const sequelize = new Sequelize('sqlite::memory:');
 // running http server and socket.io on top of it
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 const httpServer = createServer();
 const io = new Server(httpServer);
-const port = 8080;
+const port = 3080;
 // local libs
 import {
   generateWalletOpts,
@@ -19,6 +20,10 @@ io.on('connection', (socket) => {
     console.log('a user disconnected');
   });
 
+  socket.on('signup', (data) => {
+    console.log(`${data} trying to sign up...`);
+  });
+
   socket.on('authorize', (data) => {
     console.log(`${data} authorized`);
   });
@@ -26,7 +31,8 @@ io.on('connection', (socket) => {
   socket.on('getNFTs', async (data) => {
     const opts = generateWalletOpts(data.walletType, data.wallet);
     if(!opts) return 'only eth and sol wallet types are currently supported';
-    const nfts = await fetchClient.getCollectibles(opts);
+    // const nfts = await fetchClient.getCollectibles(opts);
+    const nfts = await OpenSeaClient.getAllCollectibles([data.wallet]);
     const collectibles = parseCollectibles(data.walletType, nfts);
     if(!collectibles) return 'there are no nfts attached to this type of wallet';
     console.log(collectibles);
