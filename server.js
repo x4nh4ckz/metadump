@@ -3,16 +3,38 @@ import { OpenSeaClient } from './fetcher/eth/index.js';
 // import { Sequelize } from 'sequelize';
 // const sequelize = new Sequelize('sqlite::memory:');
 // running http server and socket.io on top of it
-import { createServer } from 'http';
+import http from 'http';
+import express from 'express';
 import { Server } from 'socket.io';
-const httpServer = createServer();
-const io = new Server(httpServer);
-const port = 3080;
+const PORT = 3080;
 // local libs
 import {
   generateWalletOpts,
   parseCollectibles
 } from './collectibles.js';
+
+const app = express();
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, POST, DELETE');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req, res) => {
+  res.status(200).send(utils.response(true, "up & healthy"));
+});
+
+let server = http.createServer(app);
+
+server.listen(PORT, () => {
+  console.log('SocketIO > Server listening on port: ' + PORT);
+});
+
+const io = new Server(server);
 
 io.on('connection', (socket) => {
   console.log('a user connected');
@@ -39,5 +61,3 @@ io.on('connection', (socket) => {
     return collectibles;
   });
 });
-
-httpServer.listen(port, 'localhost');
