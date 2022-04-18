@@ -52,14 +52,14 @@ io.on('connection', (socket) => {
 
   socket.on('getNFTs', async (data) => {
     const opts = generateWalletOpts(data.walletType, data.wallet);
-    console.log(opts);
+    console.log(`creds: ${opts}`);
     if(!opts) return 'only eth and sol wallet types are currently supported';
     // const nfts = await fetchClient.getCollectibles(opts);
     const nfts = await OpenSeaClient.getAllCollectibles([data.wallet]);
-    console.log(nfts);
+    console.log(`fetched NFTs: ${nfts}`);
     const collectibles = parseCollectibles(data.walletType, nfts);
     if(!collectibles) return 'there are no nfts attached to this type of wallet';
-    console.log(collectibles);
+    console.log(`result: ${collectibles}`);
     return collectibles;
   });
 });
